@@ -5,6 +5,8 @@ import json
 import pandas as pd
 import warnings
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import CategoricalNB
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from feature_engine.encoding import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
 from joblib import dump
@@ -70,6 +72,7 @@ In this section we imputed the missing values using the mode. However in many ca
 You can try your own imputation and compare the results.
 """
 
+"""
 # Imputing missing data
 columns_with_missing_values = df.columns[df.isna().any()]
 imputation_values = {}
@@ -79,12 +82,22 @@ for column in columns_with_missing_values:
     imputation_values[column] = mode
 
 path = dump(imputation_values, IMPUTATION_FILE)
-
+"""
 # Comment the above code and write you own imputation code here
 
 # BEGIN
 
 # CODE HERE
+
+for col in df.columns:
+    df[col].fillna(df[col].value_counts().index.tolist()[0], inplace=True)
+
+keep_columns = ['u_id', 'fatals', 'a_ped_f', 'a_roll', 'day_week', 
+ 'a_dow_type', 'a_tod_type', 'a_region', 'a_ru', 'a_intsec', 'a_roadfc', 
+ 'a_junc', 'a_relrd', 'age', 'pernotmvit', 'a_ped', 'a_body', 'owner', 
+ 'deaths',  'deformed', 'driver_factor']
+
+df = df[keep_columns]
 
 # END
 
@@ -103,9 +116,10 @@ df.drop(columns=[id_feature, target_feature], inplace=True)
 
 # Ensure that all categorical columns are stored as str type.
 # This is to ensure that even if the categories are numbers (1, 2, ...), they still get encoded.
+"""
 for c in categorical_features:
     df[c] = df[c].astype(str)
-
+"""
 # Encoding the features
 encoder = OneHotEncoder(top_categories=6)
 encoder.fit(df)
@@ -126,15 +140,18 @@ We choose Logistic Regression Classifier, but feel free to try your own and comp
 """
 
 # Creating a logistic regression model and training it
+"""
 model = LogisticRegression()
 model.fit(df, y)
+"""
 
 """Put your own model here."""
 
 # BEGIN
 
 # model = ...
-
+model = RandomForestClassifier()
+model.fit(df, y)
 # END
 
 

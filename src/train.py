@@ -116,9 +116,10 @@ df.drop(columns=[id_feature, target_feature], inplace=True)
 
 # Ensure that all categorical columns are stored as str type.
 # This is to ensure that even if the categories are numbers (1, 2, ...), they still get encoded.
+"""
 for c in categorical_features:
     df[c] = df[c].astype(str)
-
+"""
 # Encoding the features
 encoder = OneHotEncoder(top_categories=6)
 encoder.fit(df)
