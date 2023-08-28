@@ -76,7 +76,7 @@ for col in df.columns:
 keep_columns = ['u_id', 'fatals', 'a_ped_f', 'a_roll', 'day_week', 
  'a_dow_type', 'a_tod_type', 'a_region', 'a_ru', 'a_intsec', 'a_roadfc', 
  'a_junc', 'a_relrd', 'age', 'pernotmvit', 'a_ped', 'a_body', 'owner', 
- 'deaths',  'deformed', 'driver_factor']
+ 'deaths',  'deformed']
 
 df = df[keep_columns]
 
