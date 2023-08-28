@@ -89,15 +89,20 @@ path = dump(imputation_values, IMPUTATION_FILE)
 
 # CODE HERE
 
-for col in df.columns:
-    df[col].fillna(df[col].value_counts().index.tolist()[0], inplace=True)
+#fill all null values with the "mode"
 
-keep_columns = ['u_id', 'fatals', 'a_ped_f', 'a_roll', 'day_week', 
+keep_columns = ['u_id', 'a_ped_f', 'a_roll', 'day_week', 
  'a_dow_type', 'a_tod_type', 'a_region', 'a_ru', 'a_intsec', 'a_roadfc', 
  'a_junc', 'a_relrd', 'age', 'pernotmvit', 'a_ped', 'a_body', 'owner', 
  'deaths',  'deformed', 'driver_factor']
 
 df = df[keep_columns]
+
+for col in df.columns:
+    df[col].fillna(df[col].value_counts().index.tolist()[0], inplace=True)
+
+#convert "deaths" to be binary
+df['deaths'] = np.where(df['deaths'] > 0, "Yes", "No") 
 
 # END
 

@@ -70,15 +70,18 @@ imputation_values = load(IMPUTATION_FILE)
 for column in columns_with_missing_values:
     df[column].fillna(imputation_values[column], inplace=True)"""
 
-for col in df.columns:
-    df[col].fillna(df[col].value_counts().index.tolist()[0], inplace=True)
-
-keep_columns = ['u_id', 'fatals', 'a_ped_f', 'a_roll', 'day_week', 
+keep_columns = ['u_id',  'a_ped_f', 'a_roll', 'day_week', 
  'a_dow_type', 'a_tod_type', 'a_region', 'a_ru', 'a_intsec', 'a_roadfc', 
  'a_junc', 'a_relrd', 'age', 'pernotmvit', 'a_ped', 'a_body', 'owner', 
  'deaths',  'deformed']
 
 df = df[keep_columns]
+
+for col in df.columns:
+    df[col].fillna(df[col].value_counts().index.tolist()[0], inplace=True)
+
+#convert "deaths" to be binary
+df['deaths'] = np.where(df['deaths'] > 0, "Yes", "No") 
 
 """
 Encoding
